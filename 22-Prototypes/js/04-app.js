@@ -28,47 +28,19 @@ Cliente.prototype.retiraSaldo = function (retiro) {
   this.saldo -= retiro;
 };
 
-// Instanciarlo
-const pedro = new Cliente("Pedro", 6000);
-
-// Acceder a los prototypes
-console.log(pedro.tipoCliente());
-
-// Un prototype que accede a otros prototypes
-console.log(pedro.nombreClienteSaldo());
-
-// reescribir un valor
-pedro.retiraSaldo(2000);
-
-// comprobar saldo
-console.log(pedro.nombreClienteSaldo());
-
-// NUEVO: Heredar Prototypes
-
-// Crear 2 objetos nuevos...
 function Persona(nombre, saldo, telefono) {
-  // this.nombre = nombre;
-  // this.saldo = saldo;
-  // this.telefono = telefono;
-
-  // Debe ser:
   Cliente.call(this, nombre, saldo);
   this.telefono = telefono;
 }
 
-// Heredar la función ( Antes de Instanciarlo )
 Persona.prototype = Object.create(Cliente.prototype);
 
-// Heredar el constructor
-Persona.prototype.constructor = Cliente;
+Persona.prototype.contructor = Cliente;
 
-// Instanciarlo
-const juan = new Persona("Juan", 6000, 1120192);
+const juan = new Persona("Juan", 5000, 9942409);
 console.log(juan);
 
-// Crear Prototype solo para Persona...
 Persona.prototype.mostrarTelefono = function () {
-  return `El teléfono de este cliente es: ${this.telefono}`;
+  return `el telefono de esta persona es ${this.telefono}`;
 };
-console.log(juan.nombreClienteSaldo());
 console.log(juan.mostrarTelefono());
