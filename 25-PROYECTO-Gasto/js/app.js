@@ -30,7 +30,10 @@ class Presupuesto {
       0
     );
     this.restante = this.presupuesto - gastado;
-    console.log(this.restante);
+  }
+  eliminarGasto(id) {
+    this.gastos = this.gastos.filter((gasto) => gasto.id !== id);
+    this.calcularRestante();
   }
 }
 
@@ -63,7 +66,7 @@ class UI {
       divMensaje.remove();
     }, 3000);
   }
-  agregarGastoListado(gastos) {
+  mostrarGastos(gastos) {
     this.limpiarHTML(); // elimina el html previo
     //iterar sobre los gastos
     gastos.forEach((gasto) => {
@@ -75,13 +78,17 @@ class UI {
       nuevoGasto.dataset.id = id;
 
       //agregar un html del gasto
-      nuevoGasto.innerHTML = `${nombre} <span class="badge badge-primary basge-pill">${cantidad} </span>`;
+      nuevoGasto.innerHTML = `${nombre} <span class="badge badge-primary basge-pill"> $ ${cantidad} </span>`;
 
       //Boton de borrar el gasto
       const btnBorrar = document.createElement("button");
       btnBorrar.classList.add("btn", "btn-danger", "borrar-gasto");
       btnBorrar.innerHTML = "borrar &times;";
       nuevoGasto.appendChild(btnBorrar);
+      btnBorrar.onclick = () => {
+        eliminarGasto(id);
+      };
+
       //agregar al html
       gastoListado.appendChild(nuevoGasto);
     });
@@ -94,6 +101,27 @@ class UI {
   }
   actualizarRestante(restante) {
     document.querySelector("#restante").textContent = restante;
+  }
+  comprobarPresupuesto(presupuestObj) {
+    const { presupuesto, restante } = presupuestObj;
+
+    const restanteDiv = document.querySelector(".restante");
+    //comprobar 25%
+    if (presupuesto / 4 > restante) {
+      restanteDiv.classList.remove("alert-success", "alert-warning");
+      restanteDiv.classList.add("alert-danger");
+    } else if (presupuesto / 2 > restante) {
+      restanteDiv.classList.remove("alert-success");
+      restanteDiv.classList.add("alert-warning");
+    } else {
+      restanteDiv.classList.remove("alert-danger", "alert-warning");
+      restanteDiv.classList.add("alert-succes");
+    }
+    //si el total es 0 menor
+    if (restante <= 0) {
+      ui.imprimirAlerta("el presupuesto se ha agotado", "error");
+      formulario.querySelector('button[type="submit"]').disabled = true;
+    }
   }
 }
 
@@ -151,8 +179,19 @@ function agregarGasto(e) {
 
   //imprimir los gastos
   const { gastos, restante } = presupuesto;
-  ui.agregarGastoListado(gastos);
+  ui.mostrarGastos(gastos);
   ui.actualizarRestante(restante);
+  ui.comprobarPresupuesto(presupuesto);
   //reinicia el formulario
   formulario.reset();
+}
+
+function eliminarGasto(id) {
+  //elimina del objeto
+  presupuesto.eliminarGasto(id);
+  //elimina los gastos del html
+  const { gastos, restante } = presupuesto;
+  ui.mostrarGastos(gastos);
+  ui.actualizarRestante(restante);
+  ui.comprobarPresupuesto(presupuesto);
 }
