@@ -206,6 +206,17 @@ function iniciarApp() {
     toast.show();
   }
 
+  function obtenerFavoritos() {
+    const favoritos = JSON.parse(localStorage.getItem("favoritos")) ?? [];
+    if (favoritos.length) {
+      return;
+    }
+  }
+
+  const noFavoritos = document.createElement("P");
+  noFavoritos.textContent = "No hay favoritos aun";
+  noFavoritos.classList.add("fs-4", "text-center", "font-bold");
+
   function LimpiarHTML(selector) {
     while (selector.firstChild) {
       selector.removeChild(selector.firstChild);
