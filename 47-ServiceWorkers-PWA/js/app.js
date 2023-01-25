@@ -6,9 +6,3 @@ if ("serviceWorker" in navigator) {
 } else {
   console.log("Service Workers no soportados");
 }
-
-//Evento fetch para descargar archivos estaticos
-
-self.addEventListener("fetch", (e) => {
-  console.log("Fetch", e);
-});
