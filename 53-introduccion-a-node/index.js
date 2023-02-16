@@ -1,7 +1,13 @@
 import express from "express";
 import router from "./routes/index.js";
+import db from "./config/db.js";
 
 const app = express();
+
+//conectar a la base de datos
+db.authenticate()
+  .then(() => console.log("base de datos conectada"))
+  .catch((error) => console.log(error));
 
 const port = process.env.PORT || 4000;
 
@@ -15,8 +21,10 @@ app.use((req, res, next) => {
   next();
 });
 
-//deifinir la carpeta publica
+//Agregar body parser para leer los datos del formulario
+app.use(express.urlencoded({ extended: true }));
 
+//deifinir la carpeta publica
 app.use(express.static("public"));
 
 //Agregar Router
