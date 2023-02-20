@@ -42,7 +42,7 @@ const paginaTestimoniales = async (req, res) => {
   try {
     const testimoniales = await Testimonial.findAll();
     res.render("testimoniales", {
-      pagina: "testimoniales",
+      pagina: "Testimoniales",
       testimoniales,
     });
   } catch (error) {
@@ -53,10 +53,9 @@ const paginaTestimoniales = async (req, res) => {
 //Muestra un viaje por su slug
 const paginaDetalleVaije = async (req, res) => {
   const { slug } = req.params;
-
+  console.log(req.params.slug);
   try {
     const resultado = await Viaje.findOne({ where: { slug } });
-
     res.render("vaije", {
       pagina: "informacion Vaije",
       resultado,

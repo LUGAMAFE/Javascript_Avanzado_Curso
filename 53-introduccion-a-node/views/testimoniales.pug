@@ -9,7 +9,6 @@ block contenido
 
         .row
 
-
             .col-md-12
                 h2.d-block.w-100.text-center Agrega un Testimonial
 
@@ -29,6 +28,6 @@ block contenido
                             input#nombre(type="text", placeholder="Tu Correo", name='correo', class='form-control' value= correo)
                         .form-group 
                             .label(for="mensaje") Mensaje
-                            textarea#mensaje(type="text")(class='form-control',placeholder="Tu Mensaje", name='mensaje', rows= 3,)= mensaje
+                            textarea#mensaje(class='form-control', name='mensaje', placeholder="Tu Mensaje", rows= 3)= mensaje
 
                         input.btn.btn-success.btn-block(type='submit')
